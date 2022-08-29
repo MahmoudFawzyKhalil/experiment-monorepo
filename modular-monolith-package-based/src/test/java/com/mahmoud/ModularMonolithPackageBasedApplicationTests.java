@@ -1,4 +1,4 @@
-package com.mahmod.modularmonolithpackagebased;
+package com.mahmoud;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
