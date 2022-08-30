@@ -19,6 +19,7 @@ public class ProjectFacade {
         // How will I do that?
         // I could have a synchronous internal API along with the REST API for internal use only, as not all use cases
         // will have to use the REST API. Some are just for internal use.
+        // I will also have to TRANSLATE the project subdomain to the dto of the internal API, and also translate back whatever they give me. No filthy DTO in domain!
         var project = new Project(
                 createProjectRequest.name,
                 createProjectRequest.description,
