@@ -20,6 +20,7 @@ public class ProjectController {
     @PostMapping
     public ResponseEntity<Void> createProject(@RequestBody CreateProjectRequest createProjectRequest) {
         projectFacade.createProject(createProjectRequest);
+        // TODO how to return a 201 created URI? check Rentea's Request scoped bean
         return ResponseEntity.ok().build();
     }
 }
