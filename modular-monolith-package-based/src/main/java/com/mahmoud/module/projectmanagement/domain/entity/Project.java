@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 @Entity
 //@Table(name = "PROJECTS", schema = "PROJECT_MANAGEMENT", catalog = "PROJECT_MANAGEMENT")
+// TODO add schemas to each module
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +18,7 @@ public class Project {
     private String description;
     private String projectManagerEmail;
 
-    protected Project(){
+    protected Project() {
 
     }
 
