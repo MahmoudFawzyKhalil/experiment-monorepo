@@ -17,6 +17,8 @@ public class ProjectFacade {
         // TODO add validation that the user's maximum project limit is not exceeded
         // This requires a call to the User Management module
         // How will I do that?
+        // I could have a synchronous internal API along with the REST API for internal use only, as not all use cases
+        // will have to use the REST API. Some are just for internal use.
         var project = new Project(
                 createProjectRequest.name,
                 createProjectRequest.description,
