@@ -1,0 +1,13 @@
+apiVersion: "security.istio.io/v1beta1"
+kind: "PeerAuthentication"
+metadata:
+  name: "default" # name for any meshwide policy is default by convention, as you should only have a single meshwide policy
+  namespace: "istio-system" # namespace must be istio-system for it to be meshwide,
+  # if it's any other namespace, then it's namespace-wide. which overrides any meshwide policy.
+spec:
+# applying a selector makes it a workload-specific policy
+#  selector:
+#    matchLabels:
+#      app: webapp
+  mtls:
+    mode: STRICT # best practice
