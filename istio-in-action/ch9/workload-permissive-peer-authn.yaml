@@ -1,0 +1,11 @@
+apiVersion: "security.istio.io/v1beta1"
+kind: "PeerAuthentication"
+metadata:
+  name: "webapp"
+  namespace: "istioinaction"
+spec:
+  selector:
+    matchLabels: # overrides mesh-wide 
+      app: webapp # no need for mTLS if a legacy workload (e.g. sleep) tries to access webapp
+  mtls:
+    mode: PERMISSIVE
