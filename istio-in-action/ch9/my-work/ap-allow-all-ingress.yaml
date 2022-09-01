@@ -1,0 +1,13 @@
+apiVersion: "security.istio.io/v1beta1"
+kind: AuthorizationPolicy
+metadata:
+  name: allow-all-ingress
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      app: istio-ingressgateway
+#       i want to allow everyone through the
+#      ingress gateway, then deny everyone later per service
+  rules:
+    - {} # allow all if empty rule

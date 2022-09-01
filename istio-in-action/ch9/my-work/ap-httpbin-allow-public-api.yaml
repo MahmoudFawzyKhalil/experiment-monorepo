@@ -1,0 +1,15 @@
+apiVersion: "security.istio.io/v1beta1"
+kind: AuthorizationPolicy
+metadata:
+  name: httpbin-allow-public-api-access
+  namespace: istioinaction
+spec:
+  selector:
+    matchLabels:
+      app: httpbin
+  rules:
+    - to:
+        - operation:
+            methods: ["GET"]
+            paths: ["/anything/api/public"]
+  action: ALLOW # default is allow, but its good to be explicit

@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app: webapp
-  rules: # no from = allow from unauthenticated workloads
+  rules: # no from = allow from unauthenticated workloads and people
     - to:
       - operation:
           methods: ["GET"]

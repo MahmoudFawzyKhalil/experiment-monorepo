@@ -1,6 +1,6 @@
 apiVersion: "security.istio.io/v1beta1"
 kind: AuthorizationPolicy
 metadata:
-  name: default # catch-all policy named default
+  name: deny-all # catch-all policy named default
   namespace: istio-system # istio-system name space = meshwide
 spec: {} # empty spec = deny all requests
