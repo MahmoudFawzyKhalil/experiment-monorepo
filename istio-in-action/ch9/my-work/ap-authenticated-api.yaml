@@ -1,0 +1,20 @@
+apiVersion: "security.istio.io/v1beta1"
+kind: AuthorizationPolicy
+metadata:
+  name: authenticated-api
+  namespace: istioinaction
+spec:
+  selector:
+    matchLabels:
+      app: httpbin
+  rules:
+    - to:
+        - operation:
+            methods: ["GET"]
+            paths: ["/anything/api/authenticated*"]
+      from:
+        - source:
+            notRequestPrincipals: ["*"]
+            # there must a valid request principal (jwt) present or else go away
+            # "where request principal is not anything" such a weird way to put it!
+  action: ALLOW # default is allow, but it's good to be explicit
