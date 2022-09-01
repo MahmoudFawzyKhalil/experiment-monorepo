@@ -11,5 +11,5 @@ spec:
     - to:
         - operation:
             methods: ["GET"]
-            paths: ["/anything/api/public"]
+            paths: ["/anything/api/public*"]
   action: ALLOW # default is allow, but its good to be explicit

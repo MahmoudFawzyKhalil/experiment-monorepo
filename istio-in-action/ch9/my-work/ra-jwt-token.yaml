@@ -1,0 +1,16 @@
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: jwt-token
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      app: istio-ingressgateway
+  jwtRules:
+    - issuer: "http://mff-keycloak.ole-lab.com/auth/realms/mff"
+      jwks_uri: "http://35.160.20.139/auth/realms/mff/protocol/openid-connect/certs"
+      # putting just the domain name doesn't work!
+      # TODO figure out why
+      forwardOriginalToken: true
+      # don't strip token, keep it as we need to authorize with each envoy proxy for each service
