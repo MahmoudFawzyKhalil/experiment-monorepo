@@ -3,4 +3,10 @@ kind: AuthorizationPolicy
 metadata:
   name: deny-all # catch-all policy named default
   namespace: istio-system # istio-system name space = meshwide
-spec: {} # empty spec = deny all requests
+spec: {}
+# empty spec = deny all requests
+
+# EITHER have the match labels here so the catch-all deny all is only on the level of the ingress gateway
+# OR allow everyone through the gateway who has valid JWT or no JWT, then have AuthorizationPolicy that acts on individual service
+# OR allow through the ingress AND the service with the same policy (two policies per policy, YUCK!)
+# OR allow the ingress to access any specific service 3ady - try now

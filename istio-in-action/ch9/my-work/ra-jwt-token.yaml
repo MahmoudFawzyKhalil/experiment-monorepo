@@ -9,7 +9,8 @@ spec:
       app: istio-ingressgateway
   jwtRules:
     - issuer: "http://mff-keycloak.ole-lab.com/auth/realms/mff"
-      jwks_uri: "http://35.160.20.139/auth/realms/mff/protocol/openid-connect/certs"
+      outputPayloadToHeader: "WTF"
+      jwksUri: "http://35.160.20.139/auth/realms/mff/protocol/openid-connect/certs"
       # putting just the domain name doesn't work!
       # TODO figure out why
       forwardOriginalToken: true

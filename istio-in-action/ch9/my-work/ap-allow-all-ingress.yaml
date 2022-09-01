@@ -7,7 +7,9 @@ spec:
   selector:
     matchLabels:
       app: istio-ingressgateway
-#       i want to allow everyone through the
-#      ingress gateway, then deny everyone later per service
   rules:
     - {} # allow all if empty rule
+#       i want to allow everyone through the
+#      ingress gateway, then deny everyone later per service
+# I think this is the wrong way to do it, you should do everything at the ingress level with hosts instead! like in
+# ap-allow-all-to-ROLE_AXIS_ADMIN-ingress-level.yaml

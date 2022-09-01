@@ -2,19 +2,22 @@ apiVersion: "security.istio.io/v1beta1"
 kind: AuthorizationPolicy
 metadata:
   name: authenticated-api
-  namespace: istioinaction
+  namespace: istio-system
 spec:
   selector:
     matchLabels:
-      app: httpbin
+      app: istio-ingressgateway
   rules:
     - to:
         - operation:
             methods: ["GET"]
             paths: ["/anything/api/authenticated*"]
+            hosts: ["httpbin.io"]
+#      when:
+#        - key: request.auth.claims[privileges]
+#          values: ["ROLE_AXIS_ADMIN"]
       from:
         - source:
-            notRequestPrincipals: ["*"]
-            # there must a valid request principal (jwt) present or else go away
-            # "where request principal is not anything" such a weird way to put it!
-  action: ALLOW # default is allow, but it's good to be explicit
+#            requestPrincipals: ["http://mff-keycloak.ole-lab.com/auth/realms/mff/d0683a71-b0ce-4e9f-9432-33e5e78672a1"]
+            requestPrincipals: ["*"]
+  action: ALLOW

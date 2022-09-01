@@ -1,0 +1,16 @@
+apiVersion: "security.istio.io/v1beta1"
+kind: AuthorizationPolicy
+metadata:
+  name: allow-all-to-role-axis-admin-svc-level
+  namespace: istioinaction
+spec:
+  selector:
+    matchLabels:
+      app: httpbin
+  rules:
+    - from:
+        - source:
+            requestPrincipals: ["http://mff-keycloak.ole-lab.com/auth/realms/mff/*"] # issuer/subject extracted by RA
+      when:
+        - key: request.auth.claims[privileges]
+          values: ["ROLE_AXIS_ADMIN"]
