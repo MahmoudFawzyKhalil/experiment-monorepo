@@ -1,0 +1,33 @@
+apiVersion: "security.istio.io/v1beta1"
+kind: AuthorizationPolicy
+metadata:
+  name: ap-policy-per-resource
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      app: istio-ingressgateway
+  rules:
+      - to:
+        - operation:
+            hosts: ["httpbin.io"] # axis-service
+            paths: ["/anything/subsidies/*"] # /subsidies/{id}
+            # http://{{ISTIO_INGRESS_SVC_IP}}/anything/subsidies/123/contracts/15
+            # TODO can't control access to subresource, only SUFFIX match, no templates
+            # https://github.com/istio/istio/issues/16585
+            # work-around: rename endpoints
+            # maybe we can use spring security for AuthZ and keep using Istio for service-toservice AuthN
+            methods: ["PUT"]
+        # - operation: one for each ROLE_DIGITAL_EGYPT when
+        when:
+        - key: request.auth.claims[privileges] # no from needed
+          values: ["ROLE_DIGITAL_EGYPT"]
+      # TODO how to use variable in yaml
+      - to: # new rule for each endpoint that has different privilege
+          - operation:
+              hosts: ["httpbin.io"]
+              paths: ["/anything/subsidies/*"] # /subsidies/{id}
+              methods: ["GET"]
+        when:
+          - key: request.auth.claims[privileges] # no from needed
+            values: ["VIEW_SUBSIDY_REQUEST"]

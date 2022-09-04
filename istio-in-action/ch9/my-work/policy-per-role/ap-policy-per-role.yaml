@@ -1,0 +1,22 @@
+apiVersion: "security.istio.io/v1beta1"
+kind: AuthorizationPolicy
+metadata:
+  name: ap-policy-per-role
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      app: istio-ingressgateway
+  rules:
+     - when:
+        - key: request.auth.claims[privileges]
+          values: ["ROLE_DIGITAL_EGYPT"]
+       to:
+        - operation:
+            hosts: ["httpbin.io"] # axis-service
+            paths: ["/anything/subsidies/*"] # /subsidies/{id}
+            methods: ["PUT"]
+        - operation:
+            hosts: ["httpbin.io"] # axis-service
+            paths: ["/anything/subsidies/brochures/*"] #/subsidies/brochures/{brochureId}/requests/
+            methods: ["POST"]

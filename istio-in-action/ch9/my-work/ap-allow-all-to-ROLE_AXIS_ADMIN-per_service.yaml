@@ -2,11 +2,11 @@ apiVersion: "security.istio.io/v1beta1"
 kind: AuthorizationPolicy
 metadata:
   name: allow-all-to-role-axis-admin-svc-level
-  namespace: istio-system
+  namespace: istioinaction
 spec:
   selector:
     matchLabels:
-      app: istio-ingressgateway
+      app: httpbin
   rules:
     - from:
         - source:

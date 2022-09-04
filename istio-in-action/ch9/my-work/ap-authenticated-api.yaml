@@ -8,16 +8,12 @@ spec:
     matchLabels:
       app: istio-ingressgateway
   rules:
-    - to:
+      - from:
+        - source:
+            requestPrincipals: ["*"]
+        to:
         - operation:
             methods: ["GET"]
             paths: ["/anything/api/authenticated*"]
             hosts: ["httpbin.io"]
-#      when:
-#        - key: request.auth.claims[privileges]
-#          values: ["ROLE_AXIS_ADMIN"]
-      from:
-        - source:
-#            requestPrincipals: ["http://mff-keycloak.ole-lab.com/auth/realms/mff/d0683a71-b0ce-4e9f-9432-33e5e78672a1"]
-            requestPrincipals: ["*"]
   action: ALLOW
