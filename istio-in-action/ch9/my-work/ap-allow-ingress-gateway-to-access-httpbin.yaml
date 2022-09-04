@@ -15,10 +15,3 @@ spec:
         - operation:
             hosts: ["httpbin.io"]
 #TODO where I got so far:
-# Deny all policy do have every single service deny everything
-# Allow ingress gateway to access a specific svc / all services
-# Allow user to access ingress gateway for specific host, or really, all hosts it's fine as it's like API Gateway
-
-# OR
-# Deny all policies for gateway only
-# Allow user to access ingress gateway for specific host, or really, all hosts it's fine as it's like API Gateway

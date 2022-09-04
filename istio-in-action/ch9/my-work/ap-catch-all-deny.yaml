@@ -10,3 +10,11 @@ spec: {}
 # OR allow everyone through the gateway who has valid JWT or no JWT, then have AuthorizationPolicy that acts on individual service
 # OR allow through the ingress AND the service with the same policy (two policies per policy, YUCK!)
 # OR allow the ingress to access any specific service 3ady - try now
+
+# Deny all policy do have every single service deny everything
+# Allow ingress gateway to access a specific svc / all services
+# Allow user to access ingress gateway for specific host, or really, all hosts it's fine as it's like API Gateway
+
+# OR
+# Deny all policies for gateway only
+# Allow user to access ingress gateway for specific host, or really, all hosts it's fine as it's like API Gateway
