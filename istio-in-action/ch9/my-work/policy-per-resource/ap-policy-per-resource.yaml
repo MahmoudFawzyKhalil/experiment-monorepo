@@ -15,6 +15,7 @@ spec:
             # http://{{ISTIO_INGRESS_SVC_IP}}/anything/subsidies/123/contracts/15
             # TODO can't control access to subresource, only SUFFIX match, no templates
             # https://github.com/istio/istio/issues/16585
+            # possible workaround use ext authz on same gh issue
             # work-around: rename endpoints
             # maybe we can use spring security for AuthZ and keep using Istio for service-toservice AuthN
             methods: ["PUT"]
@@ -25,7 +26,7 @@ spec:
       # TODO how to use variable in yaml
       - to: # new rule for each endpoint that has different privilege
           - operation:
-              hosts: ["httpbin.io"]
+              hosts: ["httpbin.io", "httpbin.io:*"] # It configures it to match any host:port just as the gateway does
               paths: ["/anything/subsidies/*"] # /subsidies/{id}
               methods: ["GET"]
         when:

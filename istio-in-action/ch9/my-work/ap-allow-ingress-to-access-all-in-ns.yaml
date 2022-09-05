@@ -1,0 +1,23 @@
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: foo
+spec:
+  mtls:
+    mode: STRICT
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: ns-isolation-except-ingress
+  namespace: foo
+spec:
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            namespaces: ["foo"]
+        - source:
+            principals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
+# From https://istio.io/latest/docs/ops/configuration/security/security-policy-examples/#namespace-isolation-with-ingress-exception
