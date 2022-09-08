@@ -11,9 +11,10 @@ spec:
       - to:
         - operation:
             hosts: ["httpbin.io"] # axis-service
-            paths: ["/anything/subsidies/*"] # /subsidies/{id}
+            paths: ["/anything/subsidies/*"] # /subsidies/*/contracts
             # http://{{ISTIO_INGRESS_SVC_IP}}/anything/subsidies/123/contracts/15
             # TODO can't control access to subresource, only SUFFIX match, no templates
+            # TODO workaround -> ALLOW on resource + DENY subresource if appropriate
             # https://github.com/istio/istio/issues/16585
             # possible workaround use ext authz on same gh issue
             # work-around: rename endpoints
@@ -32,3 +33,9 @@ spec:
         when:
           - key: request.auth.claims[privileges] # no from needed
             values: ["VIEW_SUBSIDY_REQUEST"]
+            #
+            # Centralized authorization
+            # MFF - moder mashare3 -> split into two roles with partial responsibilities
+            # Want certain features to
+            # TODO do PER PRIVILEGE instead + composite ROLES
+            # TODO per controller + per saga / distributed query - what happens if there are repeated rules i.e. APIs such as delete are used by Saga compensation + by users

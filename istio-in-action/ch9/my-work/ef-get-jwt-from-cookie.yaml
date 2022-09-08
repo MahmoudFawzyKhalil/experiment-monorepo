@@ -23,7 +23,7 @@ spec:
           name: envoy.lua
           typed_config:
             "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"
-            inlineCode: |
+            inlineCode: | # TODO double check that it does not affect response 
               function envoy_on_request(request_handle)
                 local originalCookie = request_handle:headers():get("Cookie"):match("ACCESS_TOKEN=.*;")
                 if originalCookie then

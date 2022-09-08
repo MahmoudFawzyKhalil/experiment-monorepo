@@ -12,7 +12,7 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "httpbin.io"
+    - "httpbin.io" # TODO per instance or per service?
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService

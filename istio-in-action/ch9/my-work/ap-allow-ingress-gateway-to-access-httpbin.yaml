@@ -9,7 +9,7 @@ spec:
       app: httpbin
   rules:
     - from:
-        - source:
+        - source: # TODO check capabilities in Spring Cloud that we can't do in ingressgateway - replace one with the other?
             principals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
 #      to:
 #        - operation:
