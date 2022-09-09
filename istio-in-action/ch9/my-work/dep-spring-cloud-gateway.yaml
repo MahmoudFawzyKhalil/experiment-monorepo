@@ -1,44 +1,44 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: httpbin
+  name: mff-spring-cloud-gateway
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: httpbin
+  name: mff-spring-cloud-gateway
   labels:
-    app: httpbin
-    service: httpbin
+    app: mff-spring-cloud-gateway
+    service: mff-spring-cloud-gateway
 spec:
-  clusterIP: None
   ports:
   - name: http
     port: 80
     targetPort: 80
   selector:
-    app: httpbin
+    app: mff-spring-cloud-gateway
+  type: LoadBalancer
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: httpbin
+  name: mff-spring-cloud-gateway
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: httpbin
+      app: mff-spring-cloud-gateway
       version: v1
   template:
     metadata:
       labels:
-        app: httpbin
+        app: mff-spring-cloud-gateway
         version: v1
     spec:
-      serviceAccountName: httpbin
+      serviceAccountName: mff-spring-cloud-gateway
       containers:
-      - image: docker.io/kennethreitz/httpbin
+      - image: docker.io/library/mff-spring-cloud-gateway:latest
         imagePullPolicy: IfNotPresent
-        name: httpbin
+        name: mff-spring-cloud-gateway
         ports:
         - containerPort: 80

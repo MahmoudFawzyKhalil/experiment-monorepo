@@ -1,0 +1,36 @@
+#apiVersion: networking.istio.io/v1beta1
+#kind: ServiceEntry
+#metadata:
+#  name: external-svc-https
+#spec:
+#  hosts:
+#    - mff-keycloak.ole-lab.com
+#  location: MESH_EXTERNAL
+#  resolution: STATIC
+#  addresses:
+#    - 35.160.20.139
+#---
+#TODO try to static resolve something to google ip
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: google-svc-entry
+spec:
+  hosts:
+    - "address.internal"
+  addresses:
+    - 35.160.20.139
+  location: MESH_EXTERNAL
+  resolution: NONE
+#  ports:
+#    - name: http
+#      protocol: HTTP
+#      number: 80
+#---
+#apiVersion: v1
+#kind: Endpoints
+#metadata:
+#  name: keycloak
+#subsets:
+#  - addresses:
+#      - ip: 35.160.20.139

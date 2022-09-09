@@ -1,0 +1,39 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: get-jwt-from-cookie
+  namespace: istioinaction
+spec:
+  workloadSelector:
+    labels:
+      app: mff-spring-cloud-gateway
+  # WARNING -> comment out the above line if everything blows up
+  # ????????????????????????????????????????????????????????????????????????????????????????
+  configPatches:
+    - applyTo: HTTP_FILTER
+      match:
+        context: SIDECAR_INBOUND
+        listener:
+          filterChain:
+            filter:
+              name: "envoy.filters.network.http_connection_manager"
+              subFilter:
+                name: "envoy.filters.http.router"
+      patch:
+        operation: INSERT_FIRST
+        value:
+          name: envoy.lua
+          typed_config:
+            "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"
+            inlineCode: |
+              function envoy_on_request(request_handle)
+                local originalCookie = request_handle:headers():get("Cookie"):match("ACCESS_TOKEN=.*;")
+                if originalCookie then
+                  request_handle:logWarn("Adding header Set-Cookie with content " .. originalCookie)
+                  
+                  originalCookie = originalCookie:gsub("ACCESS_TOKEN=", "")
+                  request_handle:headers():add("Authorization", "Bearer " .. originalCookie)
+                  
+                  request_handle:logWarn("ADDED header Authorization with content " .. originalCookie)
+                end 
+                end

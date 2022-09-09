@@ -1,0 +1,16 @@
+apiVersion: "security.istio.io/v1beta1"
+kind: AuthorizationPolicy
+metadata:
+  name: allow-spring-cloud-gateway-to-access-httpbin
+  namespace: istioinaction
+spec:
+  selector:
+    matchLabels:
+      app: httpbin
+  rules:
+    - from:
+        - source:
+            principals: ["cluster.local/ns/istioinaction/sa/mff-spring-cloud-gateway"]
+#      to:
+#        - operation:
+#            hosts: ["httpbin.io"]

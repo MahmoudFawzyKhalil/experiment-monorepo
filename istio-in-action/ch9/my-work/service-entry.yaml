@@ -1,0 +1,17 @@
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: keycloak
+spec:
+  hosts:
+    - mff-keycloak.ole-lab.com
+  addresses:
+    - 35.160.20.139
+  ports:
+    - number: 80
+      name: http
+      protocol: TCP
+  location: MESH_EXTERNAL
+  resolution: DNS
+  endpoints:
+    - address: 35.160.20.139
