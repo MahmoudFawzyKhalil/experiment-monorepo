@@ -10,6 +10,10 @@
 *.ear
 *.nar
 hs_err_pid*
+maven-wrapper.properties
+mvnw
+mvnw.cmd
+maven-wrapper.jar
 
 ####################
 DB
