@@ -1,0 +1,13 @@
+apiVersion: "security.istio.io/v1beta1"
+kind: AuthorizationPolicy
+metadata:
+  name: ap-policy-per-resource-axes
+  namespace: istioinaction
+spec:
+  selector:
+    matchLabels:
+      app: mff-spring-cloud-gateway
+  rules:
+    - to:
+        - operation:
+            paths: ["/auth/realms/mff/protocol/openid-connect/token"]

@@ -1,0 +1,49 @@
+apiVersion: "security.istio.io/v1beta1"
+kind: AuthorizationPolicy
+metadata:
+  name: ap-policy-per-resource-axes
+  namespace: istioinaction
+spec:
+  selector:
+    matchLabels:
+      app: mff-spring-cloud-gateway
+  rules:
+      - to:
+          - operation: # updateSubsidy /subsidies/{id}
+              paths: ["/api/subsidies*"]
+              methods: ["PUT"]
+          - operation: # updateSubsidyStatus /subsidies/{id}/statuses
+              paths: ["/api/subsidies*"]
+              methods: ["PUT"] #Todo I can also PUT to /api/subsidies/submit, this seems awful, this can be handled by deny ^complexity
+          - operation: # purchaseBrochure /subsidies/brochures/{brochureId}/requests/
+              paths: ["/api/subsidies/brochures/*"]
+              methods: ["POST"]
+          - operation: # submitSubsidyDetails /subsidies/submit
+              paths: ["/api/subsidies/submit"]
+              methods: ["POST"]
+        when:
+          - key: request.auth.claims[privileges]
+            values: ["ROLE_DIGITAL_EGYPT"]
+
+      - to: # getSubsidyDetails /subsidies/{id}
+        - operation:
+            paths: ["/api/subsidies/*"]
+            methods: ["GET"]
+        when:
+        - key: request.auth.claims[privileges]
+          values: ["VIEW_SUBSIDY_REQUEST"]
+
+      - to: # closeSubsidyRequest /subsidies/{id}/close
+          - operation:
+              paths: ["/api/subsidies/*"]
+              methods: ["PUT"]
+        when:
+          - key: request.auth.claims[privileges]
+            values: ["MANAGE_CITIZEN_EXISTING_REQUESTS"]
+
+# MANAGE_CITIZEN can updateSubsidy, updateSubsidyStatus, can't be prevented because you can't DENY /subsidies/*/statuses because * in the middle!
+# ROLE_DIGITAL can closeSubsidyRequest
+# TODO revoking this via DENY is impossible
+
+# PROBLEMS
+# 1. Big difference between Spring endpoints and policy files

@@ -27,6 +27,7 @@ spec:
             "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"
             inlineCode: |
               function envoy_on_request(request_handle)
+                request_handle:logWarn("Handling request...")
                 local originalCookie = request_handle:headers():get("Cookie"):match("ACCESS_TOKEN=.*;")
                 if originalCookie then
                   request_handle:logWarn("Adding header Set-Cookie with content " .. originalCookie)

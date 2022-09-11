@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mff-axes
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mff-axes
+  labels:
+    app: mff-axes
+    service: mff-axes
+spec:
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8083
+  selector:
+    app: mff-axes
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mff-axes
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mff-axes
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: mff-axes
+        version: v1
+    spec:
+      serviceAccountName: mff-axes
+      containers:
+      - image: docker.io/library/mff-axes:latest
+        imagePullPolicy: IfNotPresent
+        name: mff-axes

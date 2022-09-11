@@ -1,7 +1,7 @@
 apiVersion: "security.istio.io/v1beta1"
 kind: AuthorizationPolicy
 metadata:
-  name: ap-policy-per-role
+  name: ap-policy-per-role-httpbin
   namespace: istioinaction
 spec:
   selector:

@@ -1,0 +1,18 @@
+apiVersion: "security.istio.io/v1beta1"
+kind: AuthorizationPolicy
+metadata:
+  name: allow-axes-to-access-db
+  namespace: istioinaction
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  rules:
+    - from:
+        - source:
+            principals: ["cluster.local/ns/istioinaction/sa/mff-axes"]
+#      to:
+#        - operation:
+#            hosts: ["mysql"]
+
+#TODO I must read about traffic management cuz this host ain't working as the DNS name of mysql

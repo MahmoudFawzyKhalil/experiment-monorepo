@@ -14,7 +14,7 @@ spec:
             paths: ["/anything/subsidies/*"] # /subsidies/*/contracts
             # http://{{ISTIO_INGRESS_SVC_IP}}/anything/subsidies/123/contracts/15
             # TODO can't control access to subresource, only SUFFIX match, no templates
-            # TODO workaround -> ALLOW on resource + DENY subresource if appropriate
+            # TODO workaround -> ALLOW on resource + DENY subresource if appropriate - won't work in most cases!
             # https://github.com/istio/istio/issues/16585
             # possible workaround use ext authz on same gh issue
             # work-around: rename endpoints
