@@ -1,0 +1,35 @@
+# Example configurations for deploying ext-authz server separately in the mesh.
+apiVersion: v1
+kind: Service
+metadata:
+  name: ext-authz
+  labels:
+    app: ext-authz
+spec:
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8080
+  selector:
+    app: ext-authz
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ext-authz
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ext-authz
+  template:
+    metadata:
+      labels:
+        app: ext-authz
+    spec:
+      containers:
+        - image: docker.io/library/spring-authorizer:latest
+          imagePullPolicy: IfNotPresent
+          name: ext-authz
+          ports:
+            - containerPort: 8080

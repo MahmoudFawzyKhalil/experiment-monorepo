@@ -1,0 +1,38 @@
+############################################################
+# EnvoyFilter
+###########################################################
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: myns-ext-authz
+  namespace: default
+spec:
+  configPatches:
+  - applyTo: HTTP_FILTER
+    match:
+      context: SIDECAR_INBOUND
+      listener:
+        filterChain:
+          filter:
+            name: "envoy.filters.network.http_connection_manager"
+            subFilter:
+              name: "envoy.filters.http.router"
+    patch:
+      operation: INSERT_BEFORE
+      # operation: ADD
+      # filterClass: AUTHZ # This filter will run *after* the Istio authz filter.
+      value:
+        name: envoy.filters.http.ext_authz
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
+          api_type: gRPC
+          transport_api_version: V3
+          grpc_service:
+            google_grpc:
+              target_uri: 127.0.0.1:9191
+              stat_prefix: ext_authz
+            timeout: 0.5s
+          with_request_body:
+            max_request_bytes: 8192
+            allow_partial_message: true
+          failure_mode_allow: false
