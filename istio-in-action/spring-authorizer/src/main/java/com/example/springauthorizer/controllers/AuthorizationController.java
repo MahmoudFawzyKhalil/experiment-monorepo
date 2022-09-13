@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
-@RestController
+//@RestController
 public class AuthorizationController {
 //    @RequestMapping(path = {"/**", "/"})
     public void authorizeAnything(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -46,7 +46,7 @@ public class AuthorizationController {
         response.flushBuffer();
     }
 
-    @GetMapping("/subsidies/{id}")
+//    @GetMapping("/subsidies/{id}")
     public void getSubsidy(@PathVariable("id") Long id, HttpServletRequest request, HttpServletResponse response) throws Exception {
         printEverythingAndAllow(request, response);
         // decoded JWT -> privileges
