@@ -1,5 +1,10 @@
 # Example configurations for deploying ext-authz server separately in the mesh.
 apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ext-authz
+---
+apiVersion: v1
 kind: Service
 metadata:
   name: ext-authz
@@ -27,9 +32,45 @@ spec:
       labels:
         app: ext-authz
     spec:
+      serviceAccountName: ext-authz
       containers:
         - image: docker.io/library/spring-authorizer:latest
           imagePullPolicy: IfNotPresent
           name: ext-authz
           ports:
             - containerPort: 8080
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spring-authorizer
+data:
+  the.string: "hello from k8s 🎉"
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: istioinaction
+  name: namespace-reader
+rules:
+  - apiGroups: ["", "extensions", "apps"]
+    resources: ["configmaps", "pods", "services", "endpoints", "secrets"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: namespace-reader-binding
+  namespace: istioinaction
+subjects:
+  - kind: ServiceAccount
+    name: ext-authz
+    apiGroup: ""
+roleRef:
+  kind: Role
+  name: namespace-reader
+  apiGroup: ""
+
+#TODO create istioinaction ns
+#TODO enable auto injection
+#TODO set kubectl context to istioinaction ns

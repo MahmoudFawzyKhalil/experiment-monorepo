@@ -21,9 +21,24 @@ public class TestController {
         System.out.println("Hello: " + id);
     }
 
-    @RequestMapping({"/**", "/"})
+//    @RequestMapping({"/**"})
     public void test(HttpServletRequest request){
-//        RequestMappingHandlerMapping mapping = new RequestMappingHandlerMapping();
+        printPathStuff(request);
+
+    }
+
+    public static void printPathStuff(HttpServletRequest request) {
+        //        RequestMappingHandlerMapping mapping = new RequestMappingHandlerMapping();
+
+        // Rule
+
+        // url pattern -> from request, match
+        // method -> from request
+        // roles/privileges, send authorization header
+
+        // yaml -> application.yaml + ConfigurationProperties
+
+
         PathPatternParser ppp = PathPatternParser.defaultInstance;
         PathPattern pathPattern = ppp.parse("/hello/{id}");
         RequestPath requestPath = ServletRequestPathUtils.parseAndCache(request);
@@ -39,5 +54,6 @@ public class TestController {
 
         var requestMatchResult = pathPattern.matches(pathContainer) ? new RequestMatchResult(pathPattern, pathContainer) : null;
         System.out.println("Path Variables: " + requestMatchResult.extractUriTemplateVariables());
+        String method = request.getMethod(); // Istio sends the method
     }
 }

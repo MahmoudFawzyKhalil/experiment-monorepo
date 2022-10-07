@@ -2,18 +2,22 @@ package com.example.springauthorizer.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
-//@RestController
+@RestController
 public class AuthorizationController {
-//    @RequestMapping(path = {"/**", "/"})
+    @RequestMapping(path = {"/**"})
     public void authorizeAnything(HttpServletRequest request, HttpServletResponse response) throws Exception {
         printEverythingAndAllow(request, response);
+        System.out.println("----------------");
+        TestController.printPathStuff(request);
     }
 
     private static void printEverythingAndAllow(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -38,6 +42,14 @@ public class AuthorizationController {
             System.out.println(h + ": " + request.getHeader(h));
         });
 
+        System.out.println("*******PARAMS************\n");
+        request.getParameterMap().forEach((k, v) -> {
+            System.out.println(k + ": " + Arrays.toString(v));
+                }
+        );
+
+        System.out.println("METHOD: " + request.getMethod());
+
         String requestData = request.getReader().lines().collect(Collectors.joining());
         System.out.println("*******BODY************\n");
         System.out.println(requestData);
@@ -46,7 +58,7 @@ public class AuthorizationController {
         response.flushBuffer();
     }
 
-//    @GetMapping("/subsidies/{id}")
+    //    @GetMapping("/subsidies/{id}")
     public void getSubsidy(@PathVariable("id") Long id, HttpServletRequest request, HttpServletResponse response) throws Exception {
         printEverythingAndAllow(request, response);
         // decoded JWT -> privileges
