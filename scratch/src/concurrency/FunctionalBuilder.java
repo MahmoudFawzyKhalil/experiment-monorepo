@@ -30,16 +30,8 @@ class Person {
         this.phoneNumber = phoneNumber;
     }
 
-    private void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
     private void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    private void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     @Override
